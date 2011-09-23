@@ -6,9 +6,9 @@ Supercollider Highlighter
 Usage
 -----
 
-1 Copy sc_highlighting.php and sc_highlighting.css to your directory.
-2 Call `sc_add_stylesheet()` to add the formatting stylesheet. Use a string as the argument to add a prepath.
-3 Call `sc_highlighter()` with the path to your Supercollider code file as the argument. Code will be placed within `<pre>` tags automatically.
+1. Copy sc_highlighting.php and sc_highlighting.css to your directory.
+2. Call `sc_add_stylesheet()` to add the formatting stylesheet. Use a string as the argument to add a prepath.
+3. Call `sc_highlighter()` with the path to your Supercollider code file as the argument. Code will be placed within `<pre>` tags automatically.
 
 Change log
 ----------
