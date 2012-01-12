@@ -3,6 +3,8 @@ Supercollider Highlighter
 
 **Supercollider Highlighter** is a PHP library that applies syntax colour-coding to Supercollider code files for presentation on the web. It was designed for the [Supercollider a day project](http://www.adamjansch.co.uk/sc-a-day/) and is based on code from Scott Hewitt’s [ChucK Highlighter](http://www.ablelemon.co.uk/chuckhl).
 
+<div id="intro-end"></div>
+
 Usage
 -----
 
