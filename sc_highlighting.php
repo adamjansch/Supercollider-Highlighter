@@ -85,7 +85,7 @@ function sc_highlighter($file_path)
 {
 	// STRING REPLACEMENT =======================================================
 	// Place automatic code block formatting ------------------------------------
-	echo '<pre>';
+	echo "<pre>\n<code>";
 	
 	// Open file from argument --------------------------------------------------
 	$codestring = file_get_contents($file_path);	
@@ -167,7 +167,7 @@ function sc_highlighter($file_path)
 	}
 	
 	// End code block formatting ------------------------------------------------
-	echo '</pre>';
+	echo "</pre>";
 }
 
 
@@ -190,7 +190,7 @@ function sc_highlight_string($code_string)
 {
   $code_array = explode("\n", $code_string);
 	$multiline_comment = 0;
-	$highlighted = "<pre>";
+	$highlighted = "<pre><code>";
 	
 	
 	// Go through code line by line to separate comments from code
@@ -202,7 +202,7 @@ function sc_highlight_string($code_string)
 			
 			if(is_integer($mline_index))
 			{
-				$highlighted .= $code_line."</div>";
+				$highlighted .= $code_line."</span>";
 				$multiline_comment = 0;
 			}
 			else
@@ -219,7 +219,7 @@ function sc_highlight_string($code_string)
 				// If return is 0 then comment takes whole line, otherwise line is mixed
 				if($mline_index == 0)
 				{
-					$highlighted .= '<div class="comment">'.$code_line;
+					$highlighted .= '<span class="comment">'.$code_line;
 				}
 				else
 				{
@@ -227,14 +227,14 @@ function sc_highlight_string($code_string)
 					$mixed_line = explode("/*", $code_line);
 				
 					// Colourise first part of line then add comment formatting
-					$highlighted .= colourise($mixed_line[0]).'<div class="comment">//'.$mixed_line[1];
+					$highlighted .= colourise($mixed_line[0]).'<span class="comment">//'.$mixed_line[1];
 				}
 				
 				$mline_end_index = strrpos($code_line, "*/");
 				
 				if(is_integer($mline_end_index))
 				{
-					$highlighted .= "</div>";
+					$highlighted .= "</span>";
 					$multiline_comment = 0;
 				}
 					
@@ -272,7 +272,7 @@ function sc_highlight_string($code_string)
 	}
 	
 	// End code block formatting ------------------------------------------------
-	$highlighted .= '</pre>';
+	$highlighted .= '</code></pre>';
 	
 	return $highlighted;
 }
