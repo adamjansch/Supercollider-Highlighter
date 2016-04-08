@@ -80,6 +80,136 @@ function colourise($in_string)
 
 
 
+
+// Takes in file path and opens file for processing by string highlighting function
+function sc_highlight_file($file_path)
+{
+	// Open file from argument --------------------------------------------------
+	$codestring = file_get_contents($file_path);	
+	
+  return sc_highlight_string($codestring);
+}
+
+
+
+
+// Function to highlight a string
+function sc_highlight_string($code_string)
+{
+  $code_array = explode("\n", $code_string);
+	$multiline_comment = 0;
+	$highlighted = "<pre><code>";
+	
+	
+	// Go through code line by line to separate comments from code
+	foreach($code_array as $unescaped_code_line)
+	{	
+  	$code_line = htmlspecialchars($unescaped_code_line);
+  		
+		if($multiline_comment == 1)
+		{
+			$mline_index = strrpos($code_line, "*/");
+			
+			if(is_integer($mline_index))
+			{
+				$highlighted .= $code_line."</span>";
+				$multiline_comment = 0;
+			}
+			else
+				$highlighted .= $code_line;
+		}
+		else
+		{
+			$mline_index = strrpos($code_line, "/*");
+			
+			if(is_integer($mline_index))
+			{
+				$multiline_comment = 1;
+				
+				// If return is 0 then comment takes whole line, otherwise line is mixed
+				if($mline_index == 0)
+				{
+					$highlighted .= '<span class="comment">'.$code_line;
+				}
+				else
+				{
+					// Split line at // for separate formatting
+					$mixed_line = explode("/*", $code_line);
+				
+					// Colourise first part of line then add comment formatting
+					$highlighted .= colourise($mixed_line[0]).'<span class="comment">//'.$mixed_line[1];
+				}
+				
+				$mline_end_index = strrpos($code_line, "*/");
+				
+				if(is_integer($mline_end_index))
+				{
+					$highlighted .= "</span>";
+					$multiline_comment = 0;
+				}
+					
+			}
+			else
+			{
+				// Search line for // comment
+				$dbrack_index = strrpos($code_line, "//");
+				
+				// If present the return will be an integer, blank otherwise
+				if(is_integer($dbrack_index))
+				{
+					// If return is 0 then comment takes whole line, otherwise line is mixed
+					if($dbrack_index == 0)
+					{
+						$highlighted .= '<span class="comment">'.$code_line."</span>";
+				  }
+					else
+					{
+						// Split line at // for separate formatting
+						$mixed_line = explode("//", $code_line);
+					
+						// Colourise first part of line then add comment formatting
+						$highlighted .= colourise($mixed_line[0]).'<span class="comment">//'.$mixed_line[1]."</span>";
+					}
+				}
+				else
+				{
+					$highlighted .= colourise($code_line);
+				}
+			}
+		}
+		
+		$highlighted .= "\n";
+	}
+	
+	// End code block formatting ------------------------------------------------
+	$highlighted .= '</code></pre>';
+	
+	return $highlighted;
+}
+
+
+
+
+// Function to add stylesheet
+function sc_add_stylesheet($prepath)
+{
+	// Add link to syntax CSS file ==============================================
+	echo '<link rel="stylesheet" type="text/css" href="'.$prepath.'sc_highlighting.css" />'."\n\n";
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+// DEPRECATED! //
 // ORIGINAL HIGHLIGHTER FUNCTION – ECHOES RATHER THAN RETURNS, SWITCH TO sc_highlight_file($file_path)
 // Takes in file path and opens file for processing by string highlighting function
 function sc_highlighter($file_path)
@@ -171,120 +301,4 @@ function sc_highlighter($file_path)
 	echo "</pre>";
 }
 
-
-
-
-// Takes in file path and opens file for processing by string highlighting function
-function sc_highlight_file($file_path)
-{
-	// Open file from argument --------------------------------------------------
-	$codestring = file_get_contents($file_path);	
-	
-  return sc_highlight_string($codestring);
-}
-
-
-
-
-// Function to highlight a string
-function sc_highlight_string($code_string)
-{
-  $code_array = explode("\n", $code_string);
-	$multiline_comment = 0;
-	$highlighted = "<pre><code>";
-	
-	
-	// Go through code line by line to separate comments from code
-	foreach($code_array as $code_line)
-	{		
-		if($multiline_comment == 1)
-		{
-			$mline_index = strrpos($code_line, "*/");
-			
-			if(is_integer($mline_index))
-			{
-				$highlighted .= $code_line."</span>";
-				$multiline_comment = 0;
-			}
-			else
-				$highlighted .= $code_line;
-		}
-		else
-		{
-			$mline_index = strrpos($code_line, "/*");
-			
-			if(is_integer($mline_index))
-			{
-				$multiline_comment = 1;
-				
-				// If return is 0 then comment takes whole line, otherwise line is mixed
-				if($mline_index == 0)
-				{
-					$highlighted .= '<span class="comment">'.$code_line;
-				}
-				else
-				{
-					// Split line at // for separate formatting
-					$mixed_line = explode("/*", $code_line);
-				
-					// Colourise first part of line then add comment formatting
-					$highlighted .= colourise($mixed_line[0]).'<span class="comment">//'.$mixed_line[1];
-				}
-				
-				$mline_end_index = strrpos($code_line, "*/");
-				
-				if(is_integer($mline_end_index))
-				{
-					$highlighted .= "</span>";
-					$multiline_comment = 0;
-				}
-					
-			}
-			else
-			{
-				// Search line for // comment
-				$dbrack_index = strrpos($code_line, "//");
-				
-				// If present the return will be an integer, blank otherwise
-				if(is_integer($dbrack_index))
-				{
-					// If return is 0 then comment takes whole line, otherwise line is mixed
-					if($dbrack_index == 0)
-					{
-						$highlighted .= '<span class="comment">'.$code_line."</span>";
-				  }
-					else
-					{
-						// Split line at // for separate formatting
-						$mixed_line = explode("//", $code_line);
-					
-						// Colourise first part of line then add comment formatting
-						$highlighted .= colourise($mixed_line[0]).'<span class="comment">//'.$mixed_line[1]."</span>";
-					}
-				}
-				else
-				{
-					$highlighted .= colourise($code_line);
-				}
-			}
-		}
-		
-		$highlighted .= "\n";
-	}
-	
-	// End code block formatting ------------------------------------------------
-	$highlighted .= '</code></pre>';
-	
-	return $highlighted;
-}
-
-
-
-
-// Function to add stylesheet
-function sc_add_stylesheet($prepath)
-{
-	// Add link to syntax CSS file ==============================================
-	echo '<link rel="stylesheet" type="text/css" href="'.$prepath.'sc_highlighting.css" />'."\n\n";
-}
 ?>
