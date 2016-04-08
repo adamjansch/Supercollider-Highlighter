@@ -1,8 +1,9 @@
 <?php
 /*	--------------------------------------------------------------------------------
-	Supercollider PHP syntax highlighter V0.9.3
+	Supercollider PHP syntax highlighter V0.9.5
 	sc_highlighting.php
 	21 September 2009
+	Updated: 8 April 2016
 	
 	Written by Adam Jansch - http://www.adamjansch.co.uk
 	Based on code from Scott Hewitt's ChucK Highlighter (http://www.ablelemon.co.uk/static.php?page=chuckhl)
@@ -37,7 +38,7 @@
 	• Green - literals (within ' ') and \names
 	• Grey - contents of ""
 	• Red - comments
-	• black - everything else
+	• not explicitly styled - everything else
 	
 	TO DO: Make sure code in "" and '' isn't affected by other colourising
 	--------------------------------------------------------------------------------	*/
