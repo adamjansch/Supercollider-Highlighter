@@ -14,7 +14,7 @@ Usage
 
 Change log
 ----------
-* 0.9.5: Code now displayed within `<pre>` and `<code>` tags, not just <pre> tags; comment `<div>` now a `<span>` element (as divs are not allowed inside pre tags)
+* 0.9.5: Code now displayed within `<pre>` and `<code>` tags, not just `<pre>` tags; comment `<div>` now a `<span>` element (as divs are not allowed inside pre tags)
 * 0.9.4: Added `sc_highlight_string()` and `sc_highlight_file()` functions to replace `sc_highlighter()` – these functions return a highlighted string rather than echoing directly.
 * 0.9.3: Fixed improper colouring of keywords within other words.
 * 0.9.2: Colouring of |arg declarations| added.
